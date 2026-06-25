@@ -1,0 +1,63 @@
+-- Category Analysis
+INSERT INTO MAV_AI.category_view
+(period, country, category, sales_volume, sales_value, price)
+SELECT period,country,category,
+round(sum(`sales_volume(kg_ltrs)`),1) as sales_volume,
+round(sum(sales_value),2) as sales_value,
+ round(avg(`price(kg_ltr)`),2) as price -- /    round(avg(`price(kg_ltr)`),2) round(sum(sales_value)/sum(sales_volume),2)
+FROM CSS_MAV.ivc_volumes_bau-- FROM GHANA_RA.volumes
+where period between '2023-01-01' and '2023-05-01'
+group by period,country,category
+order by period,country,category desc; 
+
+-- Category, Segment Share Analysis
+INSERT INTO MAV_AI.segment_view
+(period, country, category, segment, Segment_Volume_Share, Segment_Value_Share)
+SELECT Period,country,category,segment, 
+-- round(sum(`sales_volume(kg_ltrs)`)) as "Segment_Volumes",
+-- round(SUM(sum(`sales_volume(kg_ltrs)`)) OVER(PARTITION BY PERIOD,category)) as 'Category_Volumes',
+-- ROUND(sum(`sales_volume(kg_ltrs)`) / SUM(sum(`sales_volume(kg_ltrs)`)) OVER(PARTITION BY PERIOD,category)*100,1 )as 'Segment_Volume_Share',
+ROUND(sum(`sales_volume(kg_ltrs)`) / NULLIF(SUM(SUM(`sales_volume(kg_ltrs)`)) OVER(PARTITION BY PERIOD,category),0)*100, 1) as 'Segment_Volume_Share',
+-- round(sum(sales_value)) as "Segment_Value",
+-- round(SUM(sum(`sales_volume(kg_ltrs)`)) OVER(PARTITION BY PERIOD,category)) as 'Category_Volumes',
+-- ROUND(sum(sales_value) / SUM(sum(sales_value)) OVER(PARTITION BY PERIOD,category)*100,1 )as 'Segment_Value_Share'
+ROUND(sum(sales_value) / NULLIF(SUM(SUM(sales_value)) OVER(PARTITION BY PERIOD,category),0)*100,2 ) as 'Segment_Value_Share'
+FROM CSS_MAV.ivc_volumes_bau-- from GHANA_RA.volumes
+where period >= '2023-01-01' and period <= '2023-05-01'
+group by period,country,category,segment
+order by Period,country,category, segment desc;
+
+
+-- Segment Manufacture Share
+INSERT INTO MAV_AI.manufacturer_view
+(period, country, category, segment, manufacturer, Manufacturer_Volume_Share, Manufacturer_Value_Share)
+SELECT Period,country,category,segment,manufacturer, 
+-- round(sum(`sales_volume(kg_ltrs)`)) as "Manfacturer_Volumes",
+-- round(SUM(sum(`sales_volume(kg_ltrs)`)) OVER(PARTITION BY PERIOD,category)) as 'Category_Volumes',
+-- ROUND(sum(`sales_volume(kg_ltrs)`) / SUM(sum(`sales_volume(kg_ltrs)`)) OVER(PARTITION BY PERIOD,segment)*100,1 )as 'Manufacturer_Volume_Share',
+ROUND(sum(`sales_volume(kg_ltrs)`) / NULLIF(SUM(SUM(`sales_volume(kg_ltrs)`)) OVER(PARTITION BY PERIOD,category),0)*100,1 ) as 'Manufacturer_Volume_Share',
+-- round(sum(sales_value)) as "Manufacturer_Value",
+-- round(SUM(sum(`sales_volume(kg_ltrs)`)) OVER(PARTITION BY PERIOD,category)) as 'Category_Volumes',
+-- ROUND(sum(sales_value) / SUM(sum(sales_value)) OVER(PARTITION BY PERIOD,segment)*100,1 )as 'Manufacturer_Value_Share'
+ROUND(sum(sales_value) / NULLIF(SUM(SUM(sales_value)) OVER(PARTITION BY PERIOD,category),0)*100,2 ) as 'Manufacturer_Value_Share'
+FROM CSS_MAV.ivc_volumes_bau-- from GHANA_RA.volumes
+where period >= '2023-01-01' and period <= '2023-05-01' -- and segment in ('MILK POWDER', 'UHT MILK') -- and period <=  '2022-12-01'
+group by period,country,category,segment,manufacturer
+order by Period,country,category, segment,manufacturer desc;
+
+-- Segment Brand Share
+INSERT INTO MAV_AI.brand_view
+(period, country, category, segment, brand, Brand_Volume_Share, Brand_Value_Share)
+SELECT Period,country,category,segment,brand, 
+-- round(sum(`sales_volume(kg_ltrs)`)) as "Brand_Volumes",
+-- round(SUM(sum(`sales_volume(kg_ltrs)`)) OVER(PARTITION BY PERIOD,category)) as 'Category_Volumes',
+-- ROUND(sum(`sales_volume(kg_ltrs)`) / SUM(sum(`sales_volume(kg_ltrs)`)) OVER(PARTITION BY PERIOD,segment)*100,1 )as 'Brand_Volume_Share',
+ROUND(sum(`sales_volume(kg_ltrs)`) / NULLIF(SUM(SUM(`sales_volume(kg_ltrs)`)) OVER(PARTITION BY PERIOD,category),0)*100,1 ) as 'Brand_Volume_Share',
+-- round(sum(sales_value)) as "Brand_Value",
+-- round(SUM(sum(`sales_volume(kg_ltrs)`)) OVER(PARTITION BY PERIOD,category)) as 'Category_Volumes',
+-- ROUND(sum(sales_value) / SUM(sum(sales_value)) OVER(PARTITION BY PERIOD,segment)*100,2 )as 'Brand_Value_Share'
+ROUND(sum(sales_value) / NULLIF(SUM(SUM(sales_value)) OVER(PARTITION BY PERIOD,category),0)*100,2 ) as 'Brand_Value_Share'
+FROM CSS_MAV.ivc_volumes_bau-- from GHANA_RA.volumes
+where period >= '2023-01-01' and period <= '2023-05-01' -- and segment in ('MILK POWDER', 'UHT MILK') --  and period <=  '2022-12-01' 
+group by period,country,category,segment,brand
+order by Period,country,category, segment,brand desc;
