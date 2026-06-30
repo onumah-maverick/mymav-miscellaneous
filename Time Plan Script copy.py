@@ -26,8 +26,6 @@ def is_public_holiday(date, country):
         return False
     holiday_list = outlet_country_map.get(country, [])
     date_str = date.strftime('%d/%m/%Y')
-
-    # print(f"DEBUG: '{date_str}' in {holiday_list[:2]}...? {date_str in holiday_list}")  # SEE THE TRUTH
     return date_str in holiday_list
 
 # Function to get a valid weekday (not a weekend or public holiday)
@@ -106,7 +104,7 @@ def calculate_next_visit_date(df):
 
 
 # input data (replace "TimePlanTest.csv" with your actual CSV file) - Delete previous visit column and rename current visit as date.
-data = pd.read_excel(r"C:\Users\Andrew\OneDrive\retail audit\profile files\for may 2026\fieldwork_profile_apr26.xlsx", sheet_name="for_visitplan")
+data = pd.read_excel(r"example.xlsx", sheet_name="for_visitplan")
 df = pd.DataFrame(data)
 
 # Calculate next visit dates
@@ -116,4 +114,4 @@ df1 = calculate_next_visit_date(df)
 print("Columns in df1 before export:", df1.columns.tolist())
 
 # Export output(replace insert name with output file name)
-df.to_excel(r'C:\Users\Andrew\OneDrive\retail audit\audit plan for DA\visitplan_may26.xlsx', index=False)
+df.to_excel(r'output_example.xlsx', index=False)
