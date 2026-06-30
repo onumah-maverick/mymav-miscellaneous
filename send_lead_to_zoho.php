@@ -2,9 +2,9 @@
 // === CONFIGURATION SECTION ===
 
 // Replace these with your actual Zoho credentials
-$client_id = '1000.3OFJ0PXBKWM063R7M882RFJF4VL5ZM';
-$client_secret = 'eab7e5ff4a24349eb5d4990f29e1e27afe80e2d10b';
-$refresh_token = '1000.f42a8b6b2a7869ee2e8b31dbd29b06a2.c262997957a57e18acf5c540b6fd5a3a';
+$client_id = '';
+$client_secret = '';
+$refresh_token = '';
 $redirect_uri = 'https://flatbuffer.com/mav';
 $zoho_domain = 'https://www.zohoapis.com'; // change to .eu, .in if needed
 
