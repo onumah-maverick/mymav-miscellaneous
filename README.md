@@ -118,7 +118,6 @@ Adds:
 ## Notes
 
 * Scheduling window is hardcoded (May 5–25, 2026)
-* Greedy assignment logic (first-fit allocation)
 * No integration with real calendar systems
 
 ---
@@ -210,7 +209,7 @@ This repository acts as a **miscellaneous toolkit** containing:
 
 * Scripts are independent and not architected as a system
 * Intended for reference, debugging, and handover clarity
-* Sensitive credentials removed (`blah` placeholders used)
+* Sensitive credentials removed
 * Some logic is hardcoded for prototyping purposes
 
 ---
