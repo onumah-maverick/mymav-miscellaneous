@@ -39,8 +39,8 @@ def get_valid_weekday(date, country):
 def get_candidate_dates(last_visit_date, country):
     candidates = []
     # The valid date range: from x month to y month
-    target_date_start = datetime(2026, 5, 5)
-    target_date_end = datetime(2026, 5, 25)
+    target_date_start = datetime(2026, 5, 5) # adjust this
+    target_date_end = datetime(2026, 5, 25) # adjust this
 
 
     # Gather all valid weekdays and Saturdays in the window
