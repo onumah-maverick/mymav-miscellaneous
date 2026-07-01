@@ -15,7 +15,7 @@ These scripts are **non-production utilities**, primarily intended for reference
 
 # ⚠️ General Notes
 
-* API credentials are intentionally removed or anonymized (`blah` placeholders used)
+* API credentials are intentionally removed
 * All integrations require external environment/config setup
 * Scripts are independent (no shared architecture)
 * Some logic is hardcoded for testing purposes
@@ -46,9 +46,9 @@ Simple PHP script that:
 ## Configuration (Sensitive Fields Removed)
 
 ```php id="9xqk2a"
-$client_id = 'blah';
-$client_secret = 'blah';
-$refresh_token = 'blah';
+$client_id = '';
+$client_secret = '';
+$refresh_token = '';
 $redirect_uri = 'https://flatbuffer.com/mav';
 $zoho_domain = 'https://www.zohoapis.com';
 ```
